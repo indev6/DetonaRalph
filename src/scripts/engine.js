@@ -14,10 +14,12 @@ const state = {
         curretLive: 3,
     },
     action: {
-        timerId: setInterval(randomSquare, 2000),
+        timerId: setInterval(randomSquare, 5000),
         countDownTimerId: setInterval(countDown, 1000),
     },
 };
+
+let hitPositionPrev = -1
 
 function countDown(){
     state.values.curretTime--;
@@ -45,10 +47,12 @@ function addListenerHitBox(){
     state.view.squares.forEach((square) => {
         square.addEventListener("mousedown", () => {
             if(square.id === state.values.hitPosition) {
-                state.values.result++
+                if(hitPositionPrev != state.values.hitPosition){
+                    state.values.result++
+                    hitPositionPrev = state.values.hitPosition
+                }             
                 state.view.score.textContent = state.values.result;
-                state.values.hitPosition = null;
-            } else {
+            }   else {
                 state.values.curretLive--;
                 state.view.live.textContent = state.values.curretLive;
 
