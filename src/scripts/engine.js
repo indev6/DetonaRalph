@@ -4,15 +4,17 @@ const state = {
         enemy: document.querySelector(".enemy"),
         timeLeft: document.querySelector("#time-left"),
         score: document.querySelector("#score"),
+        live: document.querySelector("#live"),
     },
     values: {
         gameVelocity: 1000,
         hitPosition: 0,
         result: 0,
         curretTime: 60,
+        curretLive: 3,
     },
     action: {
-        timerId: setInterval(randomSquare, 1000),
+        timerId: setInterval(randomSquare, 2000),
         countDownTimerId: setInterval(countDown, 1000),
     },
 };
@@ -46,6 +48,15 @@ function addListenerHitBox(){
                 state.values.result++
                 state.view.score.textContent = state.values.result;
                 state.values.hitPosition = null;
+            } else {
+                state.values.curretLive--;
+                state.view.live.textContent = state.values.curretLive;
+
+                if(state.values.curretLive <= 0) {
+                    clearInterval(state.action.countDownTimerId);
+                    clearInterval(state.action.timerId);
+                    alert("Game Over! O seu reultado foi: " + state.values.result);
+                }
             }
         });
     });
